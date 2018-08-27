@@ -26,3 +26,5 @@ app.post('/todos', (req, res) => {
 app.listen(3000, () => {
   console.log(`server is up on port 3000. http://courd.hopto.org:3000`);
 })
+
+module.exports = {app}
