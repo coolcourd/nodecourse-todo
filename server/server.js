@@ -19,8 +19,15 @@ app.post('/todos', (req, res) => {
     console.log(`Todo saved successfully`, response);
   }, (e)=> {
     res.status(400).send(e)
-    console.log("couldn't save todo", e);
   })
+})
+
+app.get('/todos', (req, res) => {
+  Todo.find().then((todos) => {
+    res.send({todos})
+  }), e => {
+    res.status(400).send(e)
+  }
 })
 
 app.listen(3000, () => {
