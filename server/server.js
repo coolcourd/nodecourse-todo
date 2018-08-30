@@ -41,7 +41,16 @@ app.get('/todos/:id', (req, res) => {
   Todo.findById(id).then((todo) => {
     todo ? res.status(200).send({todo}) : res.status(404).send("Id not found")
   }).catch((e) => res.status(400).send(e))
+})
 
+app.delete('/todos/:id', (req, res) => {
+  const id = req.params.id
+  if (!ObjectID.isValid(id)){
+    res.status(404).send("ID not Valid");
+  }
+  Todo.findByIdAndRemove(id).then((todo) => {
+    todo ? res.status(200).send({todo}) : res.status(404).send("Id not found")
+  }).catch((e) => res.status(400).send(e))
 })
 
 app.listen(port, () => {
