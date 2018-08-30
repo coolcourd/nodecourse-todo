@@ -8,6 +8,8 @@ const {User} = require("./models/user.js")
 
 const app = express()
 
+const port = process.env.PORT || 3000
+
 app.use(bodyParser.json())
 
 app.post('/todos', (req, res) => {
@@ -43,7 +45,7 @@ app.get('/todos/:id', (req, res) => {
 })
 
 app.listen(3000, () => {
-  console.log(`server is up on port 3000. http://courd.hopto.org:3000`);
+  console.log(`server is up on port port. http://courd.hopto.org:${port}`);
 })
 
 module.exports = {app}
