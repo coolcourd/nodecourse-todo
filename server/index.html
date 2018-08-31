@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Welcome to my Todo Api</h1>
+    <h2>This api currently accepts GET, POST, PATCH, and DELETE requests with no authentication</h2>
+    <h3>Get</h3>
+    <p>The simple get url for all todos is "https://pacific-escarpment-41302.herokuapp.com/todos"</p>
+    <p>The simple get url for a specific todos is "https://pacific-escarpment-41302.herokuapp.com/todos/(insert id here)"</p>
+    <h3>POST</h3>
+    <p>To add a todo send a post request with a JSON body to "https://pacific-escarpment-41302.herokuapp.com/todos" (you will need a non-empty string sent in a "text" property on that object)</p>
+    <h3>PATCH</h3>
+    <p>This works the same as POST, you can include a completed property to make completed at populate with the UNIX timestamp</p>
+    <h3>Delete</h3>
+    <p>To delete a todo just send a delete request to "https://pacific-escarpment-41302.herokuapp.com/todos/(insert id here)"</p>
+  </body>
+</html>
