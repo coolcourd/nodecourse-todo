@@ -25,7 +25,6 @@ app.post('/todos', (req, res) => {
 
   todo.save().then((response) => {
     res.send(response)
-    console.log(`Todo saved successfully`, response);
   }, (e)=> {
     res.status(400).send(e)
   })

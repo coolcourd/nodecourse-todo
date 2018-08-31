@@ -10,7 +10,9 @@ const todos = [{
   text: 'First test todo'
 }, {
   _id: new ObjectID(),
-  text: 'second test todo'
+  text: 'second test todo',
+  completed: true,
+  completedAt: 333
 }]
 
 beforeEach((done) => {
@@ -133,6 +135,71 @@ describe("DELETE /todos/:id", () => {
   it("Should return a 404 if id is not valid", (done) => {
     request(app)
     .delete(`/todos/123`)
+    .expect(404)
+    .end(done)
+  })
+})
+
+
+describe("PATCH /todos/:id", () => {
+  it("Should update a todo and return it", (done) => {
+    const text = "updated it"
+    const hexId = todos[0]._id.toHexString()
+    request(app)
+    .patch(`/todos/${hexId}`)
+    .send({text, completed: true})
+    .expect(200)
+    .expect((res) => {
+      expect(res.body.todo.text).toBe(text)
+      expect(res.body.todo.completed).toBe(true)
+      expect(res.body.todo.completedAt).toBeA("number")
+    })
+    .end((err, res) => {
+      if (err) {
+        return done(err)
+      }
+      Todo.findById(hexId).then((todo) => {
+        expect(todo).toNotExist()
+        done()
+      }).catch((e) => done())
+
+    })
+  })
+
+  it("Should Clear completed at when todo is not finished", (done) => {
+    const text = "updated it"
+    const hexId = todos[1]._id.toHexString()
+    request(app)
+    .patch(`/todos/${hexId}`)
+    .send({text, completed: false})
+    .expect(200)
+    .expect((res) => {
+      expect(res.body.todo.text).toBe(text)
+      expect(res.body.todo.completed).toBe(false)
+      expect(res.body.todo.completedAt).toNotExist()
+    })
+    .end((err, res) => {
+      if (err) {
+        return done(err)
+      }
+      Todo.findById(hexId).then((todo) => {
+        expect(todo).toNotExist()
+        done()
+      }).catch((e) => done())
+
+    })
+  })
+
+  it("Should return a 404 if todo is not found", (done) => {
+    request(app)
+    .patch(`/todos/${new ObjectID().toHexString()}`)
+    .expect(404)
+    .end(done)
+  })
+
+  it("Should return a 404 if id is not valid", (done) => {
+    request(app)
+    .patch(`/todos/123`)
     .expect(404)
     .end(done)
   })
