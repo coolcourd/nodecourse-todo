@@ -17,11 +17,8 @@ const port = process.env.PORT
 app.use(bodyParser.json())
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    req.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    req.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header('Access-Control-Allow-Methods', 'PATCH, POST, GET, DELETE, OPTIONS');
-    res.header('mode': 'cors')
     next();
 });
 
@@ -37,6 +34,17 @@ app.post('/todos', (req, res) => {
   todo.save().then((response) => {
     res.send(response)
   }, (e)=> {
+    res.status(400).send(e)
+  })
+})
+
+app.post('/users', (req, res) => {
+  const body = _.pick(req.body, ['email', 'password'])
+  const user = new User(body)
+
+  user.save().then((user) => {
+    res.send(user)
+  }).catch((e) => {
     res.status(400).send(e)
   })
 })
